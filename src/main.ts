@@ -1,4 +1,4 @@
-import { emit, once, on, showUI } from "@create-figma-plugin/utilities";
+import { once, on, showUI } from "@create-figma-plugin/utilities";
 import { CloseHandler } from "./types";
 import {
   getLanguageArray,
@@ -8,6 +8,7 @@ import {
 } from "./utility/languageStorage";
 import { Language, setLanguageResource } from "./utility/languageStorage";
 import { i18nInit } from "./utility/i18nUtility";
+import { updateAllTextProperty } from "./updateText";
 
 const initUIPlugin = async () => {
   await initLanguageStorage();
@@ -17,8 +18,9 @@ const initUIPlugin = async () => {
 
 // Post message to UI
 const updateLanguageToUI = () => {
-  console.log("Update Language To UI");
-  emit("UPDATE_LANGUAGES", getLanguageArray());
+  console.log("[Begin] Update Language Send to UI");
+  figma.ui.postMessage({ type: 'UPDATE_LANGUAGES', payload: getLanguageArray()})
+  console.log("[End] Update Language Send to UI");
 };
 
 export default function () {
@@ -28,11 +30,6 @@ export default function () {
     figma.closePlugin();
   });
 
-  // Receive message from UI
-  // on("CHANGE_TAB", (data: any) => {
-  //   updateLanguageToUI();
-  // });
-
   on("SAVE_LANGUAGE", (currentLanguageName: string, language: Language) => {
     console.log("SAVE Language", language);
     if (language.language === currentLanguageName) {
@@ -41,6 +38,7 @@ export default function () {
       replaceLanguageResource(currentLanguageName, language);
     }
     updateLanguageToUI();
+    updateAllTextProperty();
   });
 
   on("DELETE_LANGUAGE", (languageName: string) => {

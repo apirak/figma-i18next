@@ -1,4 +1,3 @@
-import { on } from "@create-figma-plugin/utilities";
 import { h, JSX } from "preact";
 import { useState } from "preact/hooks";
 import { Layers } from "./page/layers";
@@ -10,37 +9,35 @@ import { LanguageDetail } from "./page/libraryDetail";
 import { Languages, Language } from "./utility/languageStorage";
 
 function Plugin() {
-  // const [currentTab, setCurrentTab] = useState("Layers");
+  // Count render time
+  // const renderCount = useRef(0);
+  // useEffect(() => {
+  //   renderCount.current = renderCount.current + 1;
+  // });
+  // console.log("Render count: ", renderCount.current);
+
   const [currentTab, setCurrentTab] = useState("Library");
-  const [languageArray, setLanguageArray] = useState<Languages>([]);
   const [languagePage, setLanguagePage] = useState("");
+  const [languageArray, setLanguageArray] = useState<Languages>([]);
 
   const handleLanguageSelect = (language: string): void => {
     setLanguagePage(language);
   };
 
   const language = (name: string): Language | undefined => {
-    console.log("UI, languageArray:", languageArray);
-    console.log("Name:", name);
-    console.log(
-      "Find:",
-      languageArray.find((language) => language.language === name)
-    );
     return languageArray.find((language) => language.language === name);
   };
 
-  // Post message to main
   function handleChange(event: JSX.TargetedEvent<HTMLInputElement>) {
     const newValue = event.currentTarget.value;
     setCurrentTab(newValue);
-    // emit("CHANGE_TAB", newValue);
   }
 
-  // Receive message from main
-  on("UPDATE_LANGUAGES", (languages: any) => {
-    setLanguageArray(languages);
-    console.log("Receive languages:", languages);
-  });
+  onmessage = (event) => {
+    if (event.data.pluginMessage.type === 'UPDATE_LANGUAGES') {
+      setLanguageArray(event.data.pluginMessage.payload);
+    }
+  };
 
   const options: Array<TabsOption> = [
     {
@@ -77,7 +74,6 @@ function Plugin() {
         />
       );
     }
-    return <div />;
   }
 
   return <Tabs onChange={handleChange} options={options} value={currentTab} />;
