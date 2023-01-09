@@ -1,23 +1,16 @@
-import { h, JSX } from "preact";
-import { useState } from "preact/hooks";
-import { Layers } from "./page/layers";
-import { Setting } from "./page/setting";
-import { Library } from "./page/Library";
-import { Components } from "./page/components";
-import { render, Tabs, TabsOption } from "@create-figma-plugin/ui";
-import { LanguageDetail } from "./page/libraryDetail";
-import { Languages, Language } from "./utility/languageStorage";
+import { h, JSX } from 'preact';
+import { useState } from 'preact/hooks';
+import { Layers } from './page/layers';
+import { Setting } from './page/setting';
+import { Library } from './page/Library';
+import { Components } from './page/components';
+import { render, Tabs, TabsOption } from '@create-figma-plugin/ui';
+import { LanguageDetail } from './page/libraryDetail';
+import { Languages, Language } from './utility/languageStorage';
 
 function Plugin() {
-  // Count render time
-  // const renderCount = useRef(0);
-  // useEffect(() => {
-  //   renderCount.current = renderCount.current + 1;
-  // });
-  // console.log("Render count: ", renderCount.current);
-
-  const [currentTab, setCurrentTab] = useState("Library");
-  const [languagePage, setLanguagePage] = useState("");
+  const [currentTab, setCurrentTab] = useState('Library');
+  const [languagePage, setLanguagePage] = useState('');
   const [languageArray, setLanguageArray] = useState<Languages>([]);
 
   const handleLanguageSelect = (language: string): void => {
@@ -42,11 +35,11 @@ function Plugin() {
   const options: Array<TabsOption> = [
     {
       children: <Layers />,
-      value: "Layers",
+      value: 'Layers',
     },
     {
       children: <Components />,
-      value: "Component",
+      value: 'Component',
     },
     {
       children: (
@@ -55,15 +48,15 @@ function Plugin() {
           onDetailClick={handleLanguageSelect}
         />
       ),
-      value: "Library",
+      value: 'Library',
     },
     {
       children: <Setting />,
-      value: "Setting",
+      value: 'Setting',
     },
   ];
 
-  if (languagePage !== "") {
+  if (languagePage !== '') {
     const currentLanguage = language(languagePage);
 
     if (currentLanguage !== undefined) {

@@ -21,14 +21,18 @@ $ npm run watch
 
 ### Todo
 
-Engine
+1. Standalone plugin สามารถเพิ่ม ลด แก้ไข ภาษา ผ่าน json ได้ 
 
-[ ] Dynamic Support Multiple Language
+- [ ] [Plugin] ปิด tab "Layer" และ "Component"
 
-[ ] Validate Json (Key file)
+- [ ] [Plugin] เปลี่ยน tab "Release" เป็น "Setting"
 
-UI
+- [ ] [Setting] ตั้งค่า Auto update ได้
 
-[ ] Add Button precreate Key text
+- [ ] [Setting] กด Reset กลับเป็น Default ได้
 
-[ ] Add Button Update in Page, Update all Page
+- [ ] [Lib Detail] แจ้งเตือนเมื่อ Save json ไม่ได้ พร้อมบอกว่าทำไมแจ้งไม่ได้
+
+- [ ] [Lib Detail] แจ้ง Confirm เมื่อกดปุ่ม Delete
+
+
